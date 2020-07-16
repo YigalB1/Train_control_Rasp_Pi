@@ -1,3 +1,14 @@
+import train_defs
+import RPi.GPIO as GPIO     
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(train_defs.in1,GPIO.OUT)
+GPIO.setup(train_defs.in2,GPIO.OUT)
+GPIO.setup(train_defs.en,GPIO.OUT)
+GPIO.output(train_defs.in1,GPIO.LOW)
+GPIO.output(train_defs.in2,GPIO.LOW)
+speed=GPIO.PWM(train_defs.en,1000)
+
 class train:
     def __init__(self):
         """
@@ -33,12 +44,12 @@ class train:
         pass
 
     def motor_set_direction(self, _direction):
-        if _direction==FORWARD:
-            GPIO.output(in1,GPIO.HIGH)
-            GPIO.output(in2,GPIO.LOW)
+        if _direction==train_defs.FORWARD:
+            GPIO.output(train_defs.in1,GPIO.HIGH)
+            GPIO.output(train_defs.in2,GPIO.LOW)
         else:
-            GPIO.output(in1,GPIO.LOW)
-            GPIO.output(in2,GPIO.HIGH)
+            GPIO.output(train_defs.in1,GPIO.LOW)
+            GPIO.output(train_defs.in2,GPIO.HIGH)
 
     def motor_go_faster(self):
         pass
@@ -46,7 +57,7 @@ class train:
     def motor_go_slower(self):
         pass
 
-    def motor_set_speed(self,_speed):
-        # assuming direction was set already
+    # assuming direction was set already
+    def motor_set_speed(_speed):
         speed.ChangeDutyCycle(_speed)
         

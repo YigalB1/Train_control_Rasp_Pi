@@ -14,31 +14,35 @@ from time import sleep
 import train_defs
 from Train_classes import train
 
+FORWARD  =0
+BACKWARDS=1
+
 # pin def
 Red_Led = LED(14)
 Yellow_Led = LED(15)
 Green_led = LED(18)
 button_Pin = 7 # purple  
 
-in1 = 24
-in2 = 23
-en = 25
+#in1 = 24
+#in2 = 23
+#en = 25
 
 temp1=1
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(in1,GPIO.OUT)
-GPIO.setup(in2,GPIO.OUT)
-GPIO.setup(en,GPIO.OUT)
-GPIO.output(in1,GPIO.LOW)
-GPIO.output(in2,GPIO.LOW)
-speed=GPIO.PWM(en,1000)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(train_defs.in1,GPIO.OUT)
+#GPIO.setup(train_defs.in2,GPIO.OUT)
+#GPIO.setup(train_defs.en,GPIO.OUT)
+#GPIO.output(train_defs.in1,GPIO.LOW)
+#GPIO.output(train_defs.in2,GPIO.LOW)
+#speed=GPIO.PWM(train_defs.en,1000)
 
 
 my_train = train()
 
 #speed.start(25)
-my_train.motor_set_direction(FORWARD)
+print (train_defs.FORWARD)
+my_train.motor_set_direction(train_defs.FORWARD)
 my_train.motor_set_speed(25)
 
 print("\n")
