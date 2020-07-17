@@ -57,7 +57,7 @@ def do_this_on_close():
         print("exiting from do_this_on_close 1")
         GPIO.cleanup()
         app.destroy()
-        rint("exiting from do_this_on_close2")
+        print("exiting from do_this_on_close2")
         sys.exit()
         
         
@@ -65,10 +65,10 @@ def do_this_on_close():
 
  
 def do_start_motor():
-    train_defs.menu_motor_start(my_train)
+    my_train.motor_start()
     
 def do_shut_down_motor():
-    train_defs.menu_motor_shut_down(my_train)
+    my_train.motor_shut_down()
 
 def do_left_direction():
     my_train.set_direction(LEFT)
@@ -95,9 +95,15 @@ def do_display_speed():
 
       
 def do_slider_speed():
-    print ("new speed is: " + str(slider_speed.value))
+    #print ("new speed is: " + str(slider_speed.value))
     slider_speed.color="red"
+    # TBD change the speed directly
 
+def do_exit_menu():
+    my_train.train_exit()
+    app.destroy()
+    sys.exit()
+    
 
 
 
@@ -176,7 +182,7 @@ space_box4.border = False
 
 controls_box = Box(app, width=500, height=100)
 controls_box.border = False
-button_exit = PushButton(controls_box, sys.exit, text=text_exit)
+button_exit = PushButton(controls_box, do_exit_menu, text=text_exit)
 button_exit.text_color="black"
 button_exit.bg="yellow"
 button_exit.text_size=40
