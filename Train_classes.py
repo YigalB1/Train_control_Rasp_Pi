@@ -1,63 +1,70 @@
-import train_defs
-import RPi.GPIO as GPIO     
+import RPi.GPIO as GPIO
 
+RIGHT = 0
+LEFT  = 1
+
+# HW pins 
+in1 = 24 # blue wire
+in2 = 23 # brown wire 
+en = 25  # gray wire
+
+#GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(train_defs.in1,GPIO.OUT)
-GPIO.setup(train_defs.in2,GPIO.OUT)
-GPIO.setup(train_defs.en,GPIO.OUT)
-GPIO.output(train_defs.in1,GPIO.LOW)
-GPIO.output(train_defs.in2,GPIO.LOW)
-speed=GPIO.PWM(train_defs.en,1000)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en,GPIO.OUT)
+
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+speed_control =GPIO.PWM(en,1000)
 
 class train:
     def __init__(self):
-        """
-        All data should be initialized with default values or arguments sent to __init__.
-        ####################################
-        e.x.: def __init__(self, car_keys):
-            car_keys = car_keys
-        ####################################
-        """
-        self.car_keys = None  # TODO - do an enum of KEYS_ON and KEYS_OFF, to stop/start the car
-        self.direction = None
-        self.speed = None
-        self.fdist = None
-        self.bdist = None
-        self.curr_dist = None  # the relevant dist
-        self.debug_car_go = None  # used just for debug, to move info about stages
-        self.debug_wifi = None
-
+        self.min_speed=0
+        self.max_speed=100
+        self.speed_delta = 10
+        self.speed = 0 # int between  to 100        
+        self.train_nginecar_keys = None  # TODO - do an enum of KEYS_ON and KEYS_OFF, to stop/start the car
+        self.direction = RIGHT # left or right
+        
+        
     def motor_start(self):
-        """
-        This function will start the engine.
-        :return:
-        """
-        # Here will be the code for starting the engine.
-        # According to your initialized data from init of car_keys.
-        # it will be implemented in some way, possibly like that:
-        # I think the value of ON/OFF should be encapsulated some how. The string is just an example.
-        self.car_keys = "ON"
+        print("Starting engine")
+        #GPIO.clenup()
+        self.speed=0      
 
-    def motor_shut_down(self):
-        # The "pass" is a place holder. there are not empty fonctions in python - that is the way to implement one.
-        # When adding code to the functions - the "pass" should be deleted.
-        pass
+    def motor_shut_down(self):        
+        print("Shutting up engine")
+        self.speed=0 
+        
 
-    def motor_set_direction(self, _direction):
-        if _direction==train_defs.FORWARD:
-            GPIO.output(train_defs.in1,GPIO.HIGH)
-            GPIO.output(train_defs.in2,GPIO.LOW)
+    def set_direction(self, _direction):        
+        if _direction==RIGHT:
+            self.direction = RIGHT
+            GPIO.output(in1,GPIO.HIGH)
+            GPIO.output(in2,GPIO.LOW)
+            print(">>>",end='')
         else:
-            GPIO.output(train_defs.in1,GPIO.LOW)
-            GPIO.output(train_defs.in2,GPIO.HIGH)
+            self.direction = LEFT
+            GPIO.output(in1,GPIO.LOW)
+            GPIO.output(in2,GPIO.HIGH)
+            print("<<<",end='')
 
-    def motor_go_faster(self):
-        pass
+    def motor_increase_speed(self):        
+        self.speed += self.speed_delta
+        if (self.speed > self.max_speed):
+            self.speed = self.max_speed;        
 
-    def motor_go_slower(self):
-        pass
-
+    def motor_decrease_speed(self):
+        self.speed -= self.speed_delta
+        if (self.speed < self.min_speed):
+            self.speed = self.min_speed
+    
+    def train_exit(self):
+        #pwm.stop()
+        GPIO.cleanup()
+    
     # assuming direction was set already
-    def motor_set_speed(_speed):
-        speed.ChangeDutyCycle(_speed)
+    def motor_set_speed(self,_speed):
+        self.speed.ChangeDutyCycle(_speed)
         
