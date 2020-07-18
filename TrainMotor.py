@@ -109,14 +109,11 @@ def do_exit_menu():
 
 
 # texts for menu. TBD: change names to meaningful
-text3="Faster     "
-text4="Slower     "
-text5="  0  "
+
 text_exit ="   EXIT    "
 text_left = "Go Left"
 text_right = "Go Right"
 text_speed = "Speed: " + str(my_train.speed)
-print(text_speed)
 
 
 app = App(title="Train Control menu", bg = "gray",width=500, height=600)
@@ -124,19 +121,20 @@ app = App(title="Train Control menu", bg = "gray",width=500, height=600)
 
 power_box = Box(app, width=500, height=100)
 power_box.border = False
-button1 = PushButton(power_box, command=do_start_motor,     text="Start Motor",height=5,align="right")
-button1.text_color="black"
-button1.bg="green"
-button1.text_size=20
-button2 = PushButton(power_box, command=do_shut_down_motor, text="Shut Motor ", height=5,align="left")
-button2.text_color="black"
-button2.bg="red"
-button2.text_size=20
+text_start="Start Motor"
+button_start = PushButton(power_box, command=do_start_motor,text=text_start,height=5,align="right")
+button_start.text_color="black"
+button_start.bg="green"
+button_start.text_size=20
+
+text_shut= "Shut Motor "
+button_shut = PushButton(power_box, command=do_shut_down_motor,text=text_shut, height=5,align="left")
+button_shut.text_color="black"
+button_shut.bg="red"
+button_shut.text_size=20
 
 space_box1 = Box(app, width=500, height=20)
 space_box1.border = False
-
-
 
 direction_box = Box(app, width=500, height=100)
 direction_box.border = False
@@ -149,27 +147,32 @@ button_right.text_color="black"
 button_right.bg="#ff8000"
 button_right.text_size=20
 
-
 space_box2 = Box(app, width=500, height=20)
 space_box2.border = False
 
-
-
 speed_box = Box(app, width=500, height=100)
 speed_box.border = False
-button3 = PushButton(speed_box, command=do_increase_speed, text=text3, height=4,align="left")
-button4 = PushButton(speed_box, command=do_descrease_speed, text=text4,height=4,align="left")
-button5 = PushButton(speed_box, command=do_display_speed, text=text5,height=4,align="right")
-button3.text_color="yellow"
-button3.bg="blue"
-button3.text_size=20
-button4.text_color="yellow"
-button4.bg="blue"
-button4.text_size=20
-button5.text_color="blue"
-button5.bg="white"
-button5.text_size=40
-button5.width=6
+
+text_faster="Faster     "
+button_faster = PushButton(speed_box, command=do_increase_speed, text=text_faster, height=4,align="left")
+button_faster.text_color="yellow"
+button_faster.bg="blue"
+button_faster.text_size=20
+
+text_slower="Slower     "
+button_slower = PushButton(speed_box, command=do_descrease_speed,text=text_slower,height=4,align="left")
+
+
+button_slower.text_color="yellow"
+button_slower.bg="blue"
+button_slower.text_size=20
+
+text_speed="  0  "
+button_speed = PushButton(speed_box, command=do_display_speed, text=text_speed,height=4,align="right")
+button_speed.text_color="blue"
+button_speed.bg="white"
+button_speed.text_size=40
+button_speed.width=6
 
 space_box3 = Box(app, width=500, height=20)
 space_box3.border = False

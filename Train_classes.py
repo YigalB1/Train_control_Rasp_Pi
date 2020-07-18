@@ -32,13 +32,11 @@ class train:
         
         
     def motor_start(self):
-        print("Starting engine")
         #GPIO.clenup()
         self.speed=0
         speed_control.start(0)
 
     def motor_shut_down(self):        
-        print("Shutting up engine")
         self.speed=0
         speed_control.stop()
         
@@ -68,6 +66,7 @@ class train:
         if (self.speed < self.min_speed):
             self.speed = self.min_speed
         speed_control.ChangeDutyCycle(self.speed)
+        #print(self.speed)
             
     
     def train_exit(self):
@@ -76,5 +75,6 @@ class train:
     
     # assuming direction was set already
     def motor_set_speed(self,_speed):
+        self.speed = _speed
         speed_control.ChangeDutyCycle(self.speed)
         
