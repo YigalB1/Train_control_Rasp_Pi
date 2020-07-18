@@ -48,12 +48,12 @@ class train:
             self.direction = RIGHT
             GPIO.output(in1,GPIO.HIGH)
             GPIO.output(in2,GPIO.LOW)
-            print(">>>",end='')
+            #print(">>>",end='')
         else:
             self.direction = LEFT
             GPIO.output(in1,GPIO.LOW)
             GPIO.output(in2,GPIO.HIGH)
-            print("<<<",end='')
+            #print("<<<",end='')
 
     def motor_increase_speed(self):        
         self.speed += self.speed_delta
@@ -66,8 +66,6 @@ class train:
         if (self.speed < self.min_speed):
             self.speed = self.min_speed
         speed_control.ChangeDutyCycle(self.speed)
-        #print(self.speed)
-            
     
     def train_exit(self):
         speed_control.stop()

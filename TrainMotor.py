@@ -1,18 +1,11 @@
-# motor eample from
+# motor example from
 #https://www.electronicshub.org/raspberry-pi-l298n-interface-tutorial-control-dc-motor-l298n-raspberry-pi/
 
-# from gui example
 from guizero import App,PushButton,yesno,Text,Slider,Box
 from gpiozero import LED
 import sys
-import time
-
-# from regular example
-# import RPi.GPIO as GPIO          
+# import time
 from time import sleep
-
-# import train classes
-#import train_defs
 from Train_classes import train
 
 #FORWARD  =0
@@ -26,43 +19,17 @@ Yellow_Led = LED(15)
 Green_led = LED(18)
 button_Pin = 7 # purple  
 
-#in1 = 24
-#in2 = 23
-#en = 25
-
-temp1=1
-
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setup(train_defs.in1,GPIO.OUT)
-#GPIO.setup(train_defs.in2,GPIO.OUT)
-#GPIO.setup(train_defs.en,GPIO.OUT)
-#GPIO.output(train_defs.in1,GPIO.LOW)
-#GPIO.output(train_defs.in2,GPIO.LOW)
-#speed=GPIO.PWM(train_defs.en,1000)
-
-
 my_train = train()
 
 
-#my_train.motor_start()
-#print (my_train.speed)
-
-
 def do_nothing ():
-    print ("Nothing happened")
+    print ("Doing nothig")
 
 def do_this_on_close():
-    print("exiting from do_this_on_close 0")
     if yesno("Close", "Do you want to quit?"):
-        print("exiting from do_this_on_close 1")
-        GPIO.cleanup()
+        my_train.train_exit()
         app.destroy()
-        print("exiting from do_this_on_close2")
         sys.exit()
-        
-        
-
-
  
 def do_start_motor():
     my_train.motor_start()
@@ -76,22 +43,19 @@ def do_left_direction():
 def do_right_direction():
     my_train.set_direction(RIGHT)
 
-
-
-
 def do_increase_speed():
     my_train.motor_increase_speed()
     #train_defs.menu_motor_increase_speed(my_train)
-    button5.text = my_train.speed
+    button_speed.text = my_train.speed
     
 def do_descrease_speed():
     my_train.motor_decrease_speed()
     #train_defs.menu_motor_decrease_speed(my_train)
-    button5.text = my_train.speed
+    button_speed.text = my_train.speed
     
 def do_display_speed():
     train_defs.menu_motor_decrease_speed(my_train)
-    button5.text = my_train.speed
+    button_speed.text = my_train.speed
 
       
 def do_slider_speed():
@@ -105,9 +69,6 @@ def do_exit_menu():
     app.destroy()
     sys.exit()
     
-
-
-
 # texts for menu. TBD: change names to meaningful
 
 text_exit ="   EXIT    "
@@ -115,20 +76,20 @@ text_left = "Go Left"
 text_right = "Go Right"
 text_speed = "Speed: " + str(my_train.speed)
 
-
 app = App(title="Train Control menu", bg = "gray",width=500, height=600)
-
 
 power_box = Box(app, width=500, height=100)
 power_box.border = False
 text_start="Start Motor"
-button_start = PushButton(power_box, command=do_start_motor,text=text_start,height=5,align="right")
+button_start = PushButton(power_box, command=do_start_motor,
+                          text=text_start,height=5,align="right")
 button_start.text_color="black"
 button_start.bg="green"
 button_start.text_size=20
 
 text_shut= "Shut Motor "
-button_shut = PushButton(power_box, command=do_shut_down_motor,text=text_shut, height=5,align="left")
+button_shut = PushButton(power_box, command=do_shut_down_motor,
+                         text=text_shut, height=5,align="left")
 button_shut.text_color="black"
 button_shut.bg="red"
 button_shut.text_size=20
@@ -161,7 +122,6 @@ button_faster.text_size=20
 
 text_slower="Slower     "
 button_slower = PushButton(speed_box, command=do_descrease_speed,text=text_slower,height=4,align="left")
-
 
 button_slower.text_color="yellow"
 button_slower.bg="blue"
@@ -199,5 +159,3 @@ app.destroy()
 
 GPIO.cleanup()
 sys.exit()
-
-
