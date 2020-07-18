@@ -1,0 +1,53 @@
+import RPi.GPIO as GPIO
+
+RIGHT = 0
+LEFT  = 1
+
+# HW pins  connecting to the L298N motor driver,
+# that drives the train tracks with voltage
+# in & in2 set the direction
+# en is PWM signal, setting the
+in1 = 24 # blue wire
+in2 = 23 # brown wire 
+en = 25  # gray wire
+
+GPIO.setmode(GPIO.BCM)
+button_Pin = 7 # purple wire
+GPIO.setup(button_Pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+
+
+# check if GPIO channels are active
+# if yes: clean them
+# 0 means Output
+# 1 means Input
+
+func=GPIO.gpio_function(button_Pin)
+if (func==0):
+    GPIO.cleanup(button_Pin)
+    GPIO.cleanup(in1)
+    GPIO.cleanup(in2)
+    GPIO.cleanup(en)
+
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en,GPIO.OUT)
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+
+speed_control = GPIO.PWM(en,1000)
+
+
+
+
+
+
+
+
+
+Train_classes.py:32: RuntimeWarning: This channel is already in use, continuing anyway.  Use GPIO.setwarnings(False) to disable warnings.
+  GPIO.setup(in1,GPIO.OUT)
+Train_classes.py:33: RuntimeWarning: This channel is already in use, continuing anyway.  Use GPIO.setwarnings(False) to disable warnings.
+  GPIO.setup(in2,GPIO.OUT)
+Train_classes.py:34: RuntimeWarning: This channel is already in use, continuing anyway.  Use GPIO.setwarnings(False) to disable warnings.
+  GPIO.setup(en,GPIO.OUT)
