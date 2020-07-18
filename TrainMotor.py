@@ -12,7 +12,7 @@ import time
 from time import sleep
 
 # import train classes
-import train_defs
+#import train_defs
 from Train_classes import train
 
 #FORWARD  =0
@@ -95,9 +95,10 @@ def do_display_speed():
 
       
 def do_slider_speed():
-    #print ("new speed is: " + str(slider_speed.value))
+    #print ("new speed is: " + str(slider_speed.value),end='')
     slider_speed.color="red"
     # TBD change the speed directly
+    my_train.motor_set_speed(slider_speed.value)
 
 def do_exit_menu():
     my_train.train_exit()
@@ -197,168 +198,3 @@ GPIO.cleanup()
 sys.exit()
 
 
-
-
-
-#speed.start(25)
-#print (train_defs.FORWARD)
-while True:
-    my_train.motor_set_direction(train_defs.FORWARD)
-    my_train.motor_set_speed(15)
-    time.sleep(3)
-    print(".",end='')
-    my_train.motor_set_speed(15)
-    time.sleep(3)
-    print(".",end='')
-    my_train.motor_set_direction(train_defs.BACKWARDS)
-    my_train.motor_set_speed(100)
-    time.sleep(3)
-    print("^",end='')
-    my_train.motor_set_speed(100)
-    time.sleep(3)
-    print("^",end='')
-
-
-
-
-
-
-
-print("\n")
-print("The default speed & direction of motor is LOW & Forward.....")
-print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
-print("\n")   
-
-
-
-
-while(1):
-
-    x=input()
-    
-    if x=='r':
-        print("run")
-        if(temp1==1):
-         GPIO.output(in1,GPIO.HIGH)
-         GPIO.output(in2,GPIO.LOW)
-         print("forward")
-         x='z'
-        else:
-         GPIO.output(in1,GPIO.LOW)
-         GPIO.output(in2,GPIO.HIGH)
-         print("backward")
-         x='z'
-
-
-    elif x=='s':
-        print("stop")
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.LOW)
-        x='z'
-
-    elif x=='f':
-        print("forward")
-        GPIO.output(in1,GPIO.HIGH)
-        GPIO.output(in2,GPIO.LOW)
-        temp1=1
-        x='z'
-
-    elif x=='b':
-        print("backward")
-        GPIO.output(in1,GPIO.LOW)
-        GPIO.output(in2,GPIO.HIGH)
-        temp1=0
-        x='z'
-
-    elif x=='l':
-        print("low")
-        #speed.ChangeDutyCycle(25)
-        my_train.motor_set_speed(25)
-        x='z'
-
-    elif x=='m':
-        print("medium")
-        speed.ChangeDutyCycle(50)
-        x='z'
-
-    elif x=='h':
-        print("high")
-        speed.ChangeDutyCycle(75)
-        x='z'
-     
-    
-    elif x=='e':
-        print("exiting")
-        #GPIO.cleanup()
-        my_train.train_exit()
-        break
-    
-    else:
-        print("<<<  wrong data  >>>")
-        print("please enter the defined data to continue.....")
-
-print("here at 1")
-sys.exit(0)
-
-
-# starting the GUI part
-
-def exitApp():
-    sys.exit()
-    
-def toggleLED():
-    Red_Led.toggle()
-    if Red_Led.is_lit:
-        ledButton.text = "LED OFF"
-    else:
-        ledButton.text = "LED ON "
-        
-my_app = App('First GUI', height=600,width=800)
-
-ledButton=PushButton(my_app,toggleLED,text="LED_ON",align="top",width=15,height=3)
-ledButton.text_size=36
-
-exitButton=PushButton(my_app,exitApp,text="Exit",align="bottom",width=15,height=3)
-exitButton.text_size=36
-
-my_app.display()
-print("exiting")
-sys.exit()
-
-# GPIO setup
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(Red_Led_Pin, GPIO.OUT)
-GPIO.setup(Yellow_Led_Pin, GPIO.OUT)
-GPIO.setup(Green_pwm_Pin, GPIO.OUT)
-GPIO.setup(button_Pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-pwm = GPIO.PWM(Green_pwm_Pin,200)
-
-
-# drive pins to off
-GPIO.output(Red_Led_Pin, GPIO.LOW)
-GPIO.output(Yellow_Led_Pin, GPIO.LOW)
-pwm.start(duty_cycle)
-
-try:
-
-    while 1:
-        print(".",end='')
-        if GPIO.input(button_Pin):
-            pwm.ChangeDutyCycle(duty_cycle)
-            GPIO.output(Red_Led_Pin, GPIO.LOW)
-            GPIO.output(Yellow_Led_Pin, GPIO.LOW)
-        else:
-            print("X",end='')
-            pwm.ChangeDutyCycle(duty_cycle)
-            GPIO.output(Red_Led_Pin, GPIO.HIGH)
-            GPIO.output(Yellow_Led_Pin, GPIO.HIGH)
-            time.sleep(0.5)
-            pwm.ChangeDutyCycle(100-duty_cycle)
-            GPIO.output(Red_Led_Pin, GPIO.LOW)
-            GPIO.output(Yellow_Led_Pin, GPIO.LOW)
-            time.sleep(0.5)
-except KeyboardInterrupt:
-    print("Stopping")
-    pwm.stop()
-    GPIO.cleanup()
