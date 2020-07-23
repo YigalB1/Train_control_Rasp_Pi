@@ -12,10 +12,10 @@ in2 = 23  # brown wire
 en = 25  # gray wire
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(in1,GPIO.OUT)
-GPIO.setup(in2,GPIO.OUT)
-GPIO.setup(en,GPIO.OUT)
-speed_control = GPIO.PWM(en,1000)
+GPIO.setup(in1, GPIO.OUT)
+GPIO.setup(in2, GPIO.OUT)
+GPIO.setup(en, GPIO.OUT)
+speed_control = GPIO.PWM(en, 1000)
 
 '''
 # check if GPIO channels are active
@@ -59,10 +59,10 @@ class train:
 
     def motor_start(self):
         # GPIO.clenup()
-        self.speed=0
+        self.speed = 0
         speed_control.start(0)
-        self.msg_to_display="starting Engine"
-        self.keys_on=True
+        self.msg_to_display = "starting Engine"
+        self.keys_on = True
         self.set_direction(self.direction) # keep the last direction
 
     def motor_shut_down(self):
@@ -115,7 +115,7 @@ class train:
     
     # assuming direction was set already
     def motor_set_speed(self,_speed):
-        if self.keys_on==False:
+        if self.keys_on == False:
             return
 
         self.speed = _speed
