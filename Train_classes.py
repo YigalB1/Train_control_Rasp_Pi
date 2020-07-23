@@ -44,8 +44,6 @@ GPIO.output(in2,GPIO.LOW)
 '''
 
 
-
-
 class train:
     def __init__(self):
         self.min_speed = 0
