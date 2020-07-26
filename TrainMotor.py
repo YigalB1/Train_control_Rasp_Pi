@@ -69,9 +69,9 @@ def do_descrease_speed():
     button_message.text="Slowing Down"
 
 
-def do_display_speed():
-    menu_motor_decrease_speed(my_train)
-    button_speed.text = my_train.speed
+# def do_display_speed():
+#     menu_motor_decrease_speed(my_train)
+#     button_speed.text = my_train.speed
 
       
 def do_slider_speed():
