@@ -39,14 +39,14 @@ def do_this_on_close():
 
 def do_start_motor():
     my_train.motor_start()
-    button_message.text="Starting motor"
+    button_message.text = "Starting motor"
 
 
 def do_shut_down_motor():
     my_train.speed = 0 
     button_speed.text = my_train.speed
     my_train.motor_shut_down()
-    button_message.text="Shutting down motor"
+    button_message.text = "Shutting down motor"
 
 
 def do_left_direction():
@@ -63,14 +63,14 @@ def do_increase_speed():
     my_train.motor_increase_speed()
     # train_defs.menu_motor_increase_speed(my_train)
     button_speed.text = my_train.speed
-    button_message.text="Speeding up"
+    button_message.text = "Speeding up"
 
 
 def do_descrease_speed():
     my_train.motor_decrease_speed()
     #train_defs.menu_motor_decrease_speed(my_train)
     button_speed.text = my_train.speed
-    button_message.text="Slowing Down"
+    button_message.text = "Slowing Down"
 
 
 # def do_display_speed():
@@ -80,13 +80,13 @@ def do_descrease_speed():
       
 def do_slider_speed():
     # print ("new speed is: " + str(slider_speed.value),end='')
-    slider_speed.color="red"
+    slider_speed.color = "red"
     # TBD change the speed directly
     my_train.motor_set_speed(slider_speed.value)
 
 
 def do_exit_menu():
-    button_message.text="Exiting"
+    button_message.text = "Exiting"
     my_train.train_exit()
     app.destroy()
     sys.exit()
@@ -155,7 +155,7 @@ speed_box = Box(app, width=500, height=100)
 speed_box.border = False
 
 text_faster = "Faster     "
-button_faster = PushButton(speed_box, command=do_increase_speed, text=text_faster, height=4,align="left")
+button_faster = PushButton(speed_box, command=do_increase_speed, text=text_faster, height=4, align="left")
 button_faster.text_color = "yellow"
 button_faster.bg = "blue"
 button_faster.text_size = 20
@@ -179,7 +179,7 @@ space_box3.border = False
 
 slider_box = Box(app, width=500, height=100)
 slider_box.border = True
-slider_speed = Slider(slider_box,command=do_slider_speed,start=0,end=100,width=500,height=50)
+slider_speed = Slider(slider_box, command=do_slider_speed, start=0, end=100, width=500, height=50)
 
 space_box4 = Box(app, width=500, height=20)
 space_box4.border = False
