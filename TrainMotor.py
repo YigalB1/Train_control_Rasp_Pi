@@ -193,5 +193,5 @@ app.display()
 print("exiting")
 app.destroy()
 
-GPIO.cleanup()
+my_train.train_exit()
 sys.exit()
