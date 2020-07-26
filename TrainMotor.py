@@ -1,8 +1,11 @@
 # motor example from
 # https://www.electronicshub.org/raspberry-pi-l298n-interface-tutorial-control-dc-motor-l298n-raspberry-pi/
 
+import os
+
 from guizero import App, PushButton, yesno, Text, Slider, Box
-from gpiozero import LED
+if os.name == "posix":
+    from gpiozero import LED
 import sys
 # import time
 from time import sleep
@@ -13,11 +16,12 @@ from Train_classes import train
 RIGHT = 0
 LEFT = 1
 
-# pin def
-Red_Led = LED(14)
-Yellow_Led = LED(15)
-Green_led = LED(18)
-button_Pin = 7  # purple
+if os.name == "posix":
+    # pin def
+    Red_Led = LED(14)
+    Yellow_Led = LED(15)
+    Green_led = LED(18)
+    button_Pin = 7  # purple
 
 my_train = train()
 
