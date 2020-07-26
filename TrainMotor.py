@@ -97,7 +97,7 @@ def do_exit_menu():
 text_exit = "   EXIT    "
 text_left = "Go Left"
 text_right = "Go Right"
-text_speed = "Speed: " + str(my_train.speed)
+text_speed = "Speed: " + str(my_train.speed)  # YIGAL - First declaration, never used.
 
 
 app = App(title="Train Control menu", bg="gray", width=500, height=700)
@@ -167,7 +167,7 @@ button_slower.text_color = "yellow"
 button_slower.bg = "blue"
 button_slower.text_size = 20
 
-text_speed = "  0  "
+text_speed = "  0  "  # YIGAL - Second declaration, deleted the first value.
 button_speed = PushButton(speed_box, command=do_nothing, text=text_speed, height=4, align="right")
 button_speed.text_color = "blue"
 button_speed.bg = "white"
