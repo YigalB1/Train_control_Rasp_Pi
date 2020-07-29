@@ -1,8 +1,11 @@
 # motor example from
 # https://www.electronicshub.org/raspberry-pi-l298n-interface-tutorial-control-dc-motor-l298n-raspberry-pi/
 
+import os
+
 from guizero import App, PushButton, yesno, Text, Slider, Box
-from gpiozero import LED
+if os.name == "posix":
+    from gpiozero import LED
 import sys
 # import time
 from time import sleep
@@ -13,11 +16,12 @@ from Train_classes import train
 RIGHT = 0
 LEFT = 1
 
-# pin def
-Red_Led = LED(14)
-Yellow_Led = LED(15)
-Green_led = LED(18)
-button_Pin = 7  # purple
+if os.name == "posix":
+    # pin def
+    Red_Led = LED(14)
+    Yellow_Led = LED(15)
+    Green_led = LED(18)
+    button_Pin = 7  # purple
 
 my_train = train()
 
@@ -35,14 +39,14 @@ def do_this_on_close():
 
 def do_start_motor():
     my_train.motor_start()
-    button_message.text="Starting motor"
+    button_message.text = "Starting motor"
 
 
 def do_shut_down_motor():
     my_train.speed = 0 
     button_speed.text = my_train.speed
     my_train.motor_shut_down()
-    button_message.text="Shutting down motor"
+    button_message.text = "Shutting down motor"
 
 
 def do_left_direction():
@@ -59,30 +63,30 @@ def do_increase_speed():
     my_train.motor_increase_speed()
     # train_defs.menu_motor_increase_speed(my_train)
     button_speed.text = my_train.speed
-    button_message.text="Speeding up"
+    button_message.text = "Speeding up"
 
 
 def do_descrease_speed():
     my_train.motor_decrease_speed()
     #train_defs.menu_motor_decrease_speed(my_train)
     button_speed.text = my_train.speed
-    button_message.text="Slowing Down"
+    button_message.text = "Slowing Down"
 
 
-def do_display_speed():
-    menu_motor_decrease_speed(my_train)
-    button_speed.text = my_train.speed
+# def do_display_speed():
+#     menu_motor_decrease_speed(my_train)
+#     button_speed.text = my_train.speed
 
       
 def do_slider_speed():
     # print ("new speed is: " + str(slider_speed.value),end='')
-    slider_speed.color="red"
+    slider_speed.color = "red"
     # TBD change the speed directly
     my_train.motor_set_speed(slider_speed.value)
 
 
 def do_exit_menu():
-    button_message.text="Exiting"
+    button_message.text = "Exiting"
     my_train.train_exit()
     app.destroy()
     sys.exit()
@@ -93,7 +97,7 @@ def do_exit_menu():
 text_exit = "   EXIT    "
 text_left = "Go Left"
 text_right = "Go Right"
-text_speed = "Speed: " + str(my_train.speed)
+text_speed = "Speed: " + str(my_train.speed)  # YIGAL - First declaration, never used.
 
 
 app = App(title="Train Control menu", bg="gray", width=500, height=700)
@@ -151,7 +155,7 @@ speed_box = Box(app, width=500, height=100)
 speed_box.border = False
 
 text_faster = "Faster     "
-button_faster = PushButton(speed_box, command=do_increase_speed, text=text_faster, height=4,align="left")
+button_faster = PushButton(speed_box, command=do_increase_speed, text=text_faster, height=4, align="left")
 button_faster.text_color = "yellow"
 button_faster.bg = "blue"
 button_faster.text_size = 20
@@ -163,7 +167,7 @@ button_slower.text_color = "yellow"
 button_slower.bg = "blue"
 button_slower.text_size = 20
 
-text_speed = "  0  "
+text_speed = "  0  "  # YIGAL - Second declaration, deleted the first value.
 button_speed = PushButton(speed_box, command=do_nothing, text=text_speed, height=4, align="right")
 button_speed.text_color = "blue"
 button_speed.bg = "white"
@@ -175,7 +179,7 @@ space_box3.border = False
 
 slider_box = Box(app, width=500, height=100)
 slider_box.border = True
-slider_speed = Slider(slider_box,command=do_slider_speed,start=0,end=100,width=500,height=50)
+slider_speed = Slider(slider_box, command=do_slider_speed, start=0, end=100, width=500, height=50)
 
 space_box4 = Box(app, width=500, height=20)
 space_box4.border = False
@@ -193,5 +197,5 @@ app.display()
 print("exiting")
 app.destroy()
 
-GPIO.cleanup()
+my_train.train_exit()
 sys.exit()
